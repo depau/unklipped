@@ -13,10 +13,10 @@ functionality provided by these macros is not available in Kalico.
 
 ## Installation
 
-1. Copy the `unclipped.cfg` to your Klipper config directory.
+1. Copy the `unklipped.cfg` to your Klipper config directory.
 2. Add the following line to your `printer.cfg`:
     ```ini
-    [include unclipped.cfg]
+    [include unklipped.cfg]
     ```
 
 ## Running Python code directly
