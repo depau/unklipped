@@ -27,10 +27,13 @@ Runs Python code directly, as if it were in a Python REPL.
 
 ```gcode
 PY print("Hello, world!")
+; Hello, world!
 PY var = 42
 PY var
+; 42
 PY import sys
 PY sys.version
+; '3.9.2 (default, Mar 20 2025, 22:21:41) \n[GCC 10.2.1 20210110]'
 ```
 
 > [!NOTE]
@@ -43,9 +46,12 @@ The `PYTHON` macro allows you to run code that Klipper is not able to parse, suc
 
 ```gcode
 PYTHON PY="print('Hello, world!')"
+; Hello, world!
 PYTHON PY="var = 42"
 PYTHON PY="var"
+; 42
 PYTHON PY="42 + 42"  # This does not work with PY but works with PYTHON
+; 84
 ```
 
 The `SCOPE` optional parameter allows you to specify which `gcode_macro` object stores the local variables (by default
@@ -62,6 +68,7 @@ Any additional parameters passed to the macro are readable from the script in th
 
 ```gcode
 PYTHON SCOPE=MY_MACRO VAR="Hello, world!" PY="print(params['VAR'])"
+; Hello, world!
 ```
 
 ## Running a Python script from a file
