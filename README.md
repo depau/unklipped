@@ -29,6 +29,8 @@ Runs Python code directly, as if it were in a Python REPL.
 PY print("Hello, world!")
 PY var = 42
 PY var
+PY import sys
+PY sys.version
 ```
 
 > [!NOTE]
