@@ -88,13 +88,13 @@ gcode:
     PYTHON SCOPE=MY_MACRO RUN_SCRIPT="path/to/script.py"
 ```
 
-Any additional parameters passed to the macro are readable from the script in the `params` dict:
-
+Any additional parameters passed to the macro are readable from the script in the `params` dict. You can also use
+[`params.forward()`](#paramsforwardexclude).
 
 ```ini
 [gcode_macro MY_MACRO]
 gcode:
-    PYTHON SCOPE=MY_MACRO RUN_SCRIPT="/path/to/script.py" DESTINATION="/tmp/hello.txt"
+    PYTHON SCOPE=MY_MACRO RUN_SCRIPT="/path/to/script.py" DESTINATION="/tmp/hello.txt" {params.forward()}
 ```
 
 ```python
