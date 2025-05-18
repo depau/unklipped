@@ -152,7 +152,7 @@ gcode:
 	PYS S{scr}     return 42
 	PYS S{scr} test()
 	PYS S{scr} print(params)
-	PYTHON RUN_SCRIPT={scr}
+	PYTHON SCOPE=PY_MACRO_EXAMPLE RUN_SCRIPT={scr}
 ```
 
 ### `printer.make_script(name=None, **params)`
@@ -186,7 +186,7 @@ gcode:
   PYTHON SCRIPT={scr} ADD="    return 42"
   PYTHON SCRIPT={scr} ADD="test()"
   PYTHON SCRIPT={scr} ADD="print(params)"
-  PYTHON RUN_SCRIPT={scr}
+  PYTHON SCOPE=PY_MACRO_EXAMPLE RUN_SCRIPT={scr}
 ```
 
 ### `PYTHON RUN_SCRIPT={scr}`
