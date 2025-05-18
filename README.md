@@ -4,6 +4,13 @@ Uncircumsize your Klipper and make it run Python code in macros, as it should.
 
 No additional modules/extensions are needed, just a single config file to include in your `printer.cfg`.
 
+Inspired by [Kalico](https://docs.kalico.gg/).
+
+### Why not just use Kalico?
+
+Because [RatOS](https://os.ratrig.com/) comes with Klipper and it's currently not compatible with Kalico. Also some
+functionality provided by these macros is not available in Kalico.
+
 ## Installation
 
 1. Copy the `unclipped.cfg` to your Klipper config directory.
