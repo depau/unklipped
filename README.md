@@ -48,6 +48,22 @@ PYTHON PY="var"
 PYTHON PY="42 + 42"  # This does not work with PY but works with PYTHON
 ```
 
+The `SCOPE` optional parameter allows you to specify which `gcode_macro` object stores the local variables (by default
+the `PYTHON` macro itself). This is useful if you want to have different scopes for different macros.
+
+```ini
+[gcode_macro MY_MACRO]
+gcode:
+    PYTHON SCOPE=MY_MACRO PY="var = 42"
+    PYTHON SCOPE=MY_MACRO PY="print(var)"
+```
+
+Any additional parameters passed to the macro are readable from the script in the `params` dict:
+
+```gcode
+PYTHON SCOPE=MY_MACRO VAR="Hello, world!" PY="print(params['VAR'])"
+```
+
 ## Running a Python script from a file
 
 You can run a Python script from a file using the `PYTHON` macro.
@@ -56,13 +72,37 @@ You can run a Python script from a file using the `PYTHON` macro.
 PYTHON RUN_SCRIPT="path/to/script.py"
 ```
 
+The `SCOPE` optional parameter allows you to specify which `gcode_macro` object stores the local variables (by default
+the `PYTHON` macro itself).
+
+```ini
+[gcode_macro MY_MACRO]
+gcode:
+    PYTHON SCOPE=MY_MACRO RUN_SCRIPT="path/to/script.py"
+```
+
+Any additional parameters passed to the macro are readable from the script in the `params` dict:
+
+
+```ini
+[gcode_macro MY_MACRO]
+gcode:
+    PYTHON SCOPE=MY_MACRO RUN_SCRIPT="/path/to/script.py" DESTINATION="/tmp/hello.txt"
+```
+
+```python
+# /path/to/script.py
+with open(params["DESTINATION"], "w") as f:
+    f.write("Hello, world!")
+```
+
 ## Creating Python macros
 
 Although a bit hacky, you can create Python macros that can be called from G-code.
 
 Here's an example:
 
-```gcode
+```ini
 [gcode_macro PY_MACRO_EXAMPLE]
 gcode:
 	{% set scr = printer.make_script("py_macro_example", params=params) %}
@@ -96,7 +136,7 @@ the script, so you can use local variables defined in the script.
 As an alternative to `PYS` should Klipper be fussy about its syntax, you can use the `PYTHON` macro as a worse-looking
 but otherwise equivalent alternative.
 
-```gcode
+```ini
 [gcode_macro PY_MACRO_EXAMPLE]
 gcode:
   {% set scr = printer.make_script("py_macro_example", params=params) %}
@@ -115,6 +155,21 @@ The `PYTHON` macro runs the script. The `RUN_SCRIPT` parameter is the script ide
 
 >[!IMPORTANT]
 > Note that each script can only be run once. Script IDs are invalidated when RUN_SCRIPT is called.
+
+The `SCOPE` optional parameter allows you to specify which `gcode_macro` object stores the local variables (by default
+the `PYTHON` macro itself). This is useful if you want to have different scopes for different macros.
+
+```ini
+[gcode_macro MY_MACRO]
+gcode:
+    {% set scr = printer.make_script("py_macro_example", params=params) %}
+    PYS S{scr} def test():
+    PYS S{scr}     print("hello world!")
+    PYS S{scr}     return 42
+    PYS S{scr} test()
+    PYS S{scr} print(params)
+    PYTHON SCOPE=MY_MACRO RUN_SCRIPT={scr}
+```
 
 ## License
 
