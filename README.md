@@ -21,7 +21,7 @@ functionality provided by these macros is not available in Kalico.
 
 ## Running Python code directly
 
-### `PY`
+### `PY ...`
 
 Runs Python code directly, as if it were in a Python REPL.
 
@@ -37,7 +37,7 @@ PY sys.version
 > The `PY` macro only works if the Python code does not start with a number. If it does, consider using
 > `PYTHON PY="..."` instead.
 
-### `PYTHON`
+### `PYTHON PY="..."`
 
 The `PYTHON` macro allows you to run code that Klipper is not able to parse, such as code that starts with a number.
 
@@ -46,6 +46,14 @@ PYTHON PY="print('Hello, world!')"
 PYTHON PY="var = 42"
 PYTHON PY="var"
 PYTHON PY="42 + 42"  # This does not work with PY but works with PYTHON
+```
+
+## Running a Python script from a file
+
+You can run a Python script from a file using the `PYTHON` macro.
+
+```gcode
+PYTHON RUN_SCRIPT="path/to/script.py"
 ```
 
 ## Creating Python macros
