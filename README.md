@@ -96,6 +96,40 @@ with open(params["DESTINATION"], "w") as f:
     f.write("Hello, world!")
 ```
 
+## Running a G-code script template from a file
+
+There are two ways to run a G-code script template from a file depending on your needs. Either way the file is loaded
+every time the macro is called, so you can change it without restarting Klipper.
+
+### `printer.load_template()`
+
+The `printer.load_template()` function loads a G-code script template from a file and renders it into the current macro.
+This is helpful to have auto-reload while developing a G-code macro.
+
+Note that any parameters and variables, including `params`, must be forwarded to the template explicitly using the
+keyword arguments.
+
+```ini
+[gcode_macro DISK_MACRO]
+gcode:
+   {printer.load_template("/home/pi/template.gcode", "DISK_MACRO", params=params)}
+```
+
+### `RUN_GCODE_FILE PATH="..."`
+
+The `RUN_GCODE_FILE` macro simply runs a G-code script template from a file. Any additional parameters passed to the
+macro are forwarded automatically to the template.
+
+>[!NOTE]
+> You can use `params.forward()` to forward all parameters of the current macro to the called macro.
+
+```ini
+[gcode_macro DISK_MACRO]
+gcode:
+    RUN_GCODE_FILE PATH="/home/pi/template.gcode" {params.forward()}
+```
+
+
 ## Creating Python macros
 
 Although a bit hacky, you can create Python macros that can be called from G-code.
@@ -169,6 +203,25 @@ gcode:
     PYS S{scr} test()
     PYS S{scr} print(params)
     PYTHON SCOPE=MY_MACRO RUN_SCRIPT={scr}
+```
+
+## Other macro helpers
+
+### `params.forward(*exclude)`
+
+The `params.forward()` function formats the parameters of the current macro into a string that can be passed to another
+macro. You can pass a list of parameter names to exclude from forwarding.
+
+```ini
+[gcode_macro MY_MACRO]
+gcode:
+    MY_MACRO2 {params.forward("EXCLUDE")}
+```
+
+```gcode
+MY_MACRO EXCLUDE="secret param" PARAM1="Hello, world!" PARAM2=42
+; Child macro called with:
+; MY_MACRO2 PARAM1="Hello, world!" PARAM2=42
 ```
 
 ## License
