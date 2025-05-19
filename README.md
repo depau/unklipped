@@ -127,13 +127,17 @@ gcode:
 The `RUN_GCODE_FILE` macro simply runs a G-code script template from a file. Any additional parameters passed to the
 macro are forwarded automatically to the template.
 
+The `VARIABLES_FROM` optional parameter allows you to specify which `gcode_macro` object stores the G-code variables
+the template will see. By default, the `RUN_GCODE_FILE` macro itself is used.
+
 >[!NOTE]
 > You can use `params.forward()` to forward all parameters of the current macro to the called macro.
 
 ```ini
 [gcode_macro DISK_MACRO]
+variable_test: 42
 gcode:
-    RUN_GCODE_FILE PATH="/home/pi/template.gcode" {params.forward()}
+    RUN_GCODE_FILE VARIABLES_FROM=DISK_MACRO PATH="/home/pi/template.gcode" {params.forward()}
 ```
 
 
