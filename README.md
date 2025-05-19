@@ -113,8 +113,8 @@ every time the macro is called, so you can change it without restarting Klipper.
 The `printer.load_template()` function loads a G-code script template from a file and renders it into the current macro.
 This is helpful to have auto-reload while developing a G-code macro.
 
-Note that any parameters and variables, including `params`, must be forwarded to the template explicitly using the
-keyword arguments.
+Note that any parameters, including `params`, must be forwarded to the template explicitly using the keyword arguments.
+Variables are loaded automatically from the specified macro name.
 
 ```ini
 [gcode_macro DISK_MACRO]
